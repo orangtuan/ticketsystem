@@ -1,5 +1,5 @@
 -- xampp.Employee definition
-CREATE TABLE `Employee` (
+CREATE TABLE `employee` (
                             `id` int(11) NOT NULL AUTO_INCREMENT,
                             `name` varchar(255) CHARACTER SET utf16 COLLATE utf16_general_ci DEFAULT NULL COMMENT 'name for login',
                             `password` varchar(255) CHARACTER SET utf16 COLLATE utf16_general_ci DEFAULT NULL COMMENT 'password for login (MD5)',
