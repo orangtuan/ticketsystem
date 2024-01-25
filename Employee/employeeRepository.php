@@ -7,7 +7,7 @@ class EmployeeRepository
         $this->database = $database;
     }
 
-    function select(int $id) : Employee|null
+    public function select(int $id) : Employee|null
     {
         $result = $this->database->getMysqli()->execute_query("SELECT * FROM employee WHERE ID = " . $id);
         if ($result === false) return null;

@@ -7,7 +7,7 @@ class Database
     private string $database;
     private mysqli|null $mysqli;
 
-    function __construct()
+    public function __construct()
     {
         $this->serverAddress = $_ENV["DB_SERVER"];
         $this->user = $_ENV["DB_USER"];
@@ -15,7 +15,7 @@ class Database
         $this->database = $_ENV["DB_DATABASE"];
     }
 
-    function connect()
+    public function connect()
     {
         if ($this->mysqli != null) return;
 
@@ -27,7 +27,7 @@ class Database
         }
     }
 
-    function disconnect()
+    public function disconnect()
     {
         if ($this->mysqli == null) return;
 
@@ -35,7 +35,7 @@ class Database
         $this->mysqli = null;
     }
 
-    function isConnected()
+    public function isConnected()
     {
         return $this->mysqli != null;
     }
