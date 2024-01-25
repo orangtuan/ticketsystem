@@ -1,0 +1,38 @@
+version: '3.0'
+
+# hier wird dein Datenbank-Volume definiert, wo deine Daten drin liegen
+volumes:
+  dbdata-xampp:
+    external: false
+
+# jetzt kommen die Container:
+services:
+  # Dein Webserver mit PHP
+  web-xampp:
+    # Als Image wird immer das aktuelle Dockerfile gebaut
+    build: .
+    # Port mapping, dass du drauf kommst: http://localhost:8070
+    ports:
+      - "8070:80"
+    # Jetzt noch Volumes. So werden deine Dateien in Echtzeit im Container aktualisiert und du musst ned für jede Änderung neustarten
+    volumes:
+      - ./../:/var/www/html/
+    # Links: Damit entsteht eine Dependency auf den db-xampp Container und du kannst den Host "database" im web-Container verwenden, um auf die Datenbank zuzugreifen
+    links:
+      - "db-xampp:database"
+  # Datenbankcontainer
+  db-xampp:
+    # Hier wird direkt das mariadb image verwendet
+    image: mariadb
+    # Umgebungsvariablen zur Konfiguration
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: xampp
+      MYSQL_USER: xampp
+      MYSQL_PASSWORD: xampp
+    # Hier wieder Port-Mapping, dass du auch von deinem PC aus auf die Datenbank mit localhost:3305 zugreifen kannst
+    ports:
+      - "3305:3306"
+    # Vorhin definiertes Volume hinterlegen, dass Daten in der Datenbank auch dauerhaft bestehen bleiben können
+    volumes:
+      - dbdata-xampp:/var/lib/mysql
