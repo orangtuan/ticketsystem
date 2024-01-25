@@ -1,9 +1,9 @@
 -- xampp.Employee definition
 CREATE TABLE `Employee` (
-                            `Employee_Id` int(11) NOT NULL AUTO_INCREMENT,
-                            `Name` varchar(255) CHARACTER SET utf16 COLLATE utf16_general_ci DEFAULT NULL COMMENT 'name for login',
-                            `Password` varchar(255) CHARACTER SET utf16 COLLATE utf16_general_ci DEFAULT NULL COMMENT 'password for login (MD5)',
-                            PRIMARY KEY (`Employee_Id`)
+                            `id` int(11) NOT NULL AUTO_INCREMENT,
+                            `name` varchar(255) CHARACTER SET utf16 COLLATE utf16_general_ci DEFAULT NULL COMMENT 'name for login',
+                            `password` varchar(255) CHARACTER SET utf16 COLLATE utf16_general_ci DEFAULT NULL COMMENT 'password for login (MD5)',
+                            PRIMARY KEY (`id`)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
