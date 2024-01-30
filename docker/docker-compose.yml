@@ -36,3 +36,4 @@ services:
     # Vorhin definiertes Volume hinterlegen, dass Daten in der Datenbank auch dauerhaft bestehen bleiben können
     volumes:
       - dbdata-xampp:/var/lib/mysql
+      - ./../sql:/docker-entrypoint-initdb.d
