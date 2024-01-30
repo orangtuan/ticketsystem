@@ -37,8 +37,6 @@ class Database
     {
         if ($this->mysqli != null) return;
 
-        var_dump($this);
-
         $this->mysqli = new mysqli(
             $this->serverAddress,
             $this->user,

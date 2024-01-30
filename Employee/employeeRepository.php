@@ -7,18 +7,24 @@ class EmployeeRepository
         $this->database = $database;
     }
 
-    public function select(int $id) : Employee|null
-    {
-        $result = $this->database->getMysqli()->execute_query("SELECT * FROM employee WHERE ID = " . $id);
-        if ($result === false) return null;
-        $resultArray = $result->fetch_assoc();
+	public function select(int $id): ?Employee {
+        $stmt = $this->database->getMysqli()->prepare("SELECT * FROM employee WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        $employee = new Employee(
+        if ($result === false || $result->num_rows === 0) {
+            $stmt->close();
+            return null;
+        }
+
+        $resultArray = $result->fetch_assoc();
+        $stmt->close();
+
+        return new Employee(
             $resultArray["id"],
-            $resultArray["user"],
+            $resultArray["name"],
             $resultArray["password"]
         );
-
-        return $employee;
     }
 }
