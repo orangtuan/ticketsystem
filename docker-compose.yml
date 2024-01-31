@@ -1,4 +1,4 @@
-version: '3.0'
+version: '3.8'
 
 # hier wird dein Datenbank-Volume definiert, wo deine Daten drin liegen
 volumes:
@@ -9,19 +9,26 @@ volumes:
 services:
   # Dein Webserver mit PHP
   web-xampp:
+    restart: unless-stopped
     # Als Image wird immer das aktuelle Dockerfile gebaut
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Umgebungsvariablen für die Konfiguration
+    env_file:
+      - .env
     # Port mapping, dass du drauf kommst: http://localhost:8070
     ports:
       - "8070:80"
     # Jetzt noch Volumes. So werden deine Dateien in Echtzeit im Container aktualisiert und du musst ned für jede Änderung neustarten
     volumes:
-      - ./../:/var/www/html/
+      - ./src:/var/www/html/
     # Links: Damit entsteht eine Dependency auf den db-xampp Container und du kannst den Host "database" im web-Container verwenden, um auf die Datenbank zuzugreifen
     links:
       - "db-xampp:database"
   # Datenbankcontainer
   db-xampp:
+    restart: unless-stopped
     # Hier wird direkt das mariadb image verwendet
     image: mariadb
     # Umgebungsvariablen zur Konfiguration
@@ -36,4 +43,4 @@ services:
     # Vorhin definiertes Volume hinterlegen, dass Daten in der Datenbank auch dauerhaft bestehen bleiben können
     volumes:
       - dbdata-xampp:/var/lib/mysql
-      - ./../sql:/docker-entrypoint-initdb.d
+      - ./src/sql:/docker-entrypoint-initdb.d
