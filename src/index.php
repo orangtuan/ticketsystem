@@ -1,9 +1,9 @@
 <?php
 require_once("database.php");
-require_once("Employee/employeeRepository.php");
-require_once("Employee/employee.php");
-require_once("Ticket/ticketRepository.php");
-require_once("Ticket/ticket.php");
+require_once("employee/employeeRepository.php");
+require_once("employee/employee.php");
+require_once("ticket/ticketRepository.php");
+require_once("ticket/ticket.php");
 
 try {
     $database = new Database();
