@@ -9,29 +9,18 @@ class Database
     private mysqli|null $mysqli = null;
 
     public function __construct()
-    {
-        $this->loadEnv();
-    }
+	{
+		$this->loadEnv();
+	}
 
-    private function loadEnv()
-    {
-        $envFile = __DIR__ . '/.env';
-        $env = file_get_contents($envFile);
-        $envLines = explode("\n", $env);
-
-        foreach ($envLines as $line) {
-            if (!empty($line) && strpos($line, '=') !== false) {
-                list($key, $value) = explode('=', $line, 2);
-                $_ENV[trim($key)] = trim($value);
-            }
-        }
-
-        $this->serverAddress = $_ENV["DB_SERVER"];
-        $this->user = $_ENV["DB_USER"];
-        $this->password = $_ENV["DB_PASSWORD"];
-        $this->database = $_ENV["DB_DATABASE"];
-        $this->port = $_ENV["DB_PORT"];
-    }
+	private function loadEnv()
+	{
+		$this->serverAddress = getenv("DB_SERVER") ?: $_ENV["DB_SERVER"];
+		$this->user = getenv("DB_USER") ?: $_ENV["DB_USER"];
+		$this->password = getenv("DB_PASSWORD") ?: $_ENV["DB_PASSWORD"];
+		$this->database = getenv("DB_DATABASE") ?: $_ENV["DB_DATABASE"];
+		$this->port = getenv("DB_PORT") ?: $_ENV["DB_PORT"];
+	}
 
     public function connect()
     {

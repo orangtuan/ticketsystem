@@ -1,0 +1,41 @@
+# Ignore Git and version control files
+.git
+.gitignore
+.svn
+.hg
+
+# Ignore Dockerfiles and related files
+Dockerfile*
+.dockerignore
+
+# Ignore configuration files that are not required
+**/.env*
+**/.editorconfig
+**/*.md
+
+# Ignore common directories not needed in production
+node_modules
+bower_components
+vendor
+
+# Ignore specific files that are not required in production
+**/*.log
+**/*.tar.*
+**/*.rar
+**/*.zip
+
+# Ignore Composer files
+composer.json
+composer.lock
+
+# Ignore common PHP IDE config files
+.phpunit.result.cache
+.idea
+.vscode
+
+# Ignore specific cache, test and documentation files
+**/Tests/
+**/docs/
+**/test/
+**/cache/
+**/coverage/
