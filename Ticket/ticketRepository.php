@@ -8,7 +8,7 @@ class TicketRepository
     {
         $this->database = $database;
     }
-
+/** TODO: */
     public function selectByID(int $id): Ticket|null
     {
         $result = $this->database->getMysqli()->execute_query("SELECT * FROM ticket WHERE ID = " . $id);
@@ -17,13 +17,13 @@ class TicketRepository
 
         $ticket = new Ticket(
             $resultArray["id"],
+           // $resultArray["ticketState"],
+            //$resultArray["customer"],
+            //$resultArray["employe"]
             $resultArray["title"],
             $resultArray["description"],
             $resultArray["creationDate"],
-            $resultArray["closingDate"],
-            $resultArray["state"],
-            $resultArray["mail"],
-            $resultArray["name"]
+            $resultArray["closingDate"]
         );
 
         return $ticket;

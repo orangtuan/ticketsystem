@@ -1,5 +1,5 @@
 <?php
-class EmployeeRepository
+class CustomerRepository
 {
     private Database $database;
     public function __construct(Database $database)
@@ -7,18 +7,18 @@ class EmployeeRepository
         $this->database = $database;
     }
 
-    public function select(int $id) : Employee|null
+    public function select(int $id) : Customer|null
     {
-        $result = $this->database->getMysqli()->execute_query("SELECT * FROM employee WHERE ID = " . $id);
+        $result = $this->database->getMysqli()->execute_query("SELECT * FROM customer WHERE ID = " . $id);
         if ($result === false) return null;
         $resultArray = $result->fetch_assoc();
 
-        $employee = new Employee(
+        $customer = new customer(
             $resultArray["id"],
             $resultArray["name"],
-            $resultArray["password"]
+            $resultArray["email"]
         );
 
-        return $employee;
+        return $customer;
     }
 }
