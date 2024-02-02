@@ -6,8 +6,9 @@ class TicketStateRepository extends BaseDao
 
     public function selectByID(int $id) : ?TicketState
     {
-        $result = $this->fetch($id, 'id');
-        if ($result === null) return null;
+        $results = $this->fetch($id);
+        if ($results === null) return null;
+        $result = $results[0];
         return new TicketState(
             $result["id"],
             $result["state"]
@@ -16,7 +17,7 @@ class TicketStateRepository extends BaseDao
     public function insertTicketState(TicketState $ticketState): int
     {
         $keyedArray = array(
-            "state" => $ticketState->getState()
+            "state" => "'" . $ticketState->getState() . "'"
         );
         return $this->insert($keyedArray);
     }

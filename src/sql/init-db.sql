@@ -36,9 +36,9 @@ CREATE TABLE IF NOT EXISTS ticket
     customer_id  INT NOT NULL,
     employee_id  INT NOT NULL,
     title        VARCHAR(255) NOT NULL,
-    description  TEXT         NOT NULL,
+    description  TEXT         NULL,
     creationDate DATETIME     NOT NULL,
-    closingDate  DATETIME     NOT NULL,
+    closingDate  DATETIME     NULL,
     FOREIGN KEY (state_id) REFERENCES ticket_state (id),
     FOREIGN KEY (customer_id) REFERENCES customer (id),
     FOREIGN KEY (employee_id) REFERENCES employee (id)

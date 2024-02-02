@@ -14,10 +14,9 @@ class BaseDao
     public function fetch($value, $key = NULL): ?array
     {
         if (is_null($key)) $key = $this->_primaryKey;
-
-        $sql = "SELECT * FROM {$this->_tableName} WHERE {$key}='{$value}'";
+        $sql = "SELECT * FROM {$this->_tableName} WHERE {$key}={$value}";
         $stmt = $this->database->getMysqli()->prepare($sql);
-		$rows = array();
+        if ($stmt === false) return null;
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -25,8 +24,9 @@ class BaseDao
             $stmt->close();
             return null;
         }
-        while ($result->fetch_assoc()) {
-            $rows[] = $result;
+        $rows = array();
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
         }
         $stmt->close();
 		return $rows;
@@ -35,7 +35,7 @@ class BaseDao
     public function fetchAll(): ?array{
         $sql = "SELECT * FROM {$this->_tableName}";
         $stmt = $this->database->getMysqli()->prepare($sql);
-        $rows = array();
+        if ($stmt === false) return null;
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -43,8 +43,9 @@ class BaseDao
             $stmt->close();
             return null;
         }
-        while ($result->fetch_assoc()) {
-            $rows[] = $result;
+        $rows = array();
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
         }
         $stmt->close();
         return $rows;
@@ -60,6 +61,7 @@ class BaseDao
 
         $sql .= implode(',', $updates);
         $sql .= " WHERE {$this->_primaryKey}='{$keyedArray[$this->_primaryKey]}'";
+        echo $sql;
         $stmt = $this->database->getMysqli()->prepare($sql);
         $stmt->execute();
         $stmt->close();
@@ -76,14 +78,22 @@ class BaseDao
             $values[] = $value;
         }
 
-        $sql .= implode(',',  $insert);
+        $sql .= implode(', ',  $insert);
         $sql .= ") VALUES (";
-        $sql .= implode(',',  $values);
+        $sql .= implode(', ',  $values);
         $sql .= ") ";
         $stmt = $this->database->getMysqli()->prepare($sql);
         $stmt->execute();
         $insertedId = $stmt->insert_id;
         $stmt->close();
         return $insertedId;
+    }
+
+    public function delete($id): void
+    {
+        $sql = "DELETE FROM {$this->_tableName} WHERE {$this->_primaryKey} = " . $id;
+        $stmt = $this->database->getMysqli()->prepare($sql);
+        $stmt->execute();
+        $stmt->close();
     }
 }

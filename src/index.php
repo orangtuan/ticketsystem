@@ -16,34 +16,85 @@ try {
 
     // Customer
     $customerRepository = new CustomerRepository($database);
-    $customer = $customerRepository->selectByID(1);
+
+    // insert
+    $customer = new Customer(null,"löschen","testmail");
+    $customerId = $customerRepository->insertCustomer($customer);
+
+    // delete
+    $customerRepository->delete(9);
+
+    // select by id
+    $customer = $customerRepository->selectByID($customerId);
     if ($customer !== null) {
         echo "<pre>" . print_r($customer, true) . "</pre>";
     } else {
         echo "No customer entries in the database for the given ID.<br>";
     }
-    
+
+    // update
+    $customer->setName("neuername");
+    $customerRepository->updateCustomer($customer);
+
+
     // Employee
     $employeeRepository = new EmployeeRepository($database);
-    $employee = $employeeRepository->selectByID(1);
+
+    //insert
+    $employee = new Employee(null, "testname", "testpassword");
+    $employeeId = $employeeRepository->insertEmployee($employee);
+
+    // select by id
+    $employee = $employeeRepository->selectByID($employeeId);
     if ($employee !== null) {
         echo "<pre>" . print_r($employee, true) . "</pre>";
     } else {
         echo "No employee entries in the database for the given ID.<br>";
     }
 
+    // update
+    $employee->setName("neuerName");
+    $employeeRepository->updateEmployee($employee);
+
     // TicketState
     $ticketStateRepository = new TicketStateRepository($database);
-    $ticketState= $ticketStateRepository->selectByID(1);
+
+    // insert
+    $ticketState = new TicketState(null, "teststate");
+    $ticketStateID = $ticketStateRepository->insertTicketState($ticketState);
+
+    // select by id
+    $ticketState= $ticketStateRepository->selectByID($ticketStateID);
     if ($ticketState !== null) {
         echo "<pre>" . print_r($ticketState, true) . "</pre>";
     } else {
         echo "No ticketState entries in the database for the given ID.<br>";
-        echo "No ticketState entries in the database for the given ID.<br>";
     }
+
+    // update
+    $ticketState->setState("neu");
+    $ticketStateRepository->updateTicketState($ticketState);
 
     // Ticket
     $ticketRepository = new TicketRepository($database);
+
+    //insert
+    $ticket = new Ticket(null, $ticketState, $customer, $employee,"testtitel", "testdescription", new DateTime(), null);
+    $ticketId = $ticketRepository->insertTicket($ticket);
+
+    //select by id
+    $ticket= $ticketRepository->selectByID($ticketId);
+    if ($ticket !== null) {
+        echo "<pre>" . print_r($ticket, true) . "</pre>";
+    } else {
+        echo "No $ticket entries in the database for the given ID.<br>";
+    }
+
+    // update
+    $ticket->setTitle("neu");
+    $ticketRepository->updateTicket($ticket);
+
+    //select All
     $tickets = $ticketRepository->selectAllTickets();
     if ($tickets !== null && count($tickets) > 0) {
         echo "<pre>" . print_r($tickets, true) . "</pre>";

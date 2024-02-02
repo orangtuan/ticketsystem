@@ -6,9 +6,9 @@ class EmployeeRepository extends BaseDao
 
     public function selectByID(int $id): ?Employee
     {
-        $result = $this->fetch($id, 'id');
-        if ($result === null) return null;
-
+        $results = $this->fetch($id);
+        if ($results === null) return null;
+        $result = $results[0];
         return new Employee(
             $result["id"],
             $result["name"],
@@ -19,8 +19,8 @@ class EmployeeRepository extends BaseDao
     public function insertEmployee(Employee $employee): int
     {
         $keyedArray = array(
-            "name" => $employee->getName(),
-            "password" => $employee->getPassword()
+            "name" => "'" . $employee->getName() . "'" ,
+            "password" => "'"  . $employee->getPassword() . "'"
         );
         return $this->insert($keyedArray);
     }

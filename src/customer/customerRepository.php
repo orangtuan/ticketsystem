@@ -6,8 +6,9 @@ class CustomerRepository extends BaseDao
 
     public function selectByID(int $id) : ?Customer
     {
-        $result = $this->fetch($id, 'id');
-        if ($result === null) return null;
+        $results = $this->fetch($id);
+        if ($results === null) return null;
+        $result = $results[0];
         return new customer(
             $result["id"],
             $result["name"],
@@ -16,8 +17,8 @@ class CustomerRepository extends BaseDao
     }
     public function insertCustomer(Customer $customer): int {
         $keyedArray = array(
-            "name"=>$customer->getName(),
-            "email"=>$customer->getEmail()
+            "name"=>"'" . $customer->getName() . "'",
+            "email"=>"'" .$customer->getEmail() . "'"
         );
         return $this->insert($keyedArray);
     }

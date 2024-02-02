@@ -1,22 +1,22 @@
 <?php
 class Customer
 {
-    private int $id;
+    private ?int $id;
     private string $name;
     private string $email;
     /**
-     * @param int $id
+     * @param ?int $id
      * @param string $name
      * @param string $email
      */
-    public function __construct(int $id, string $name, string $email)
+    public function __construct(?int $id, string $name, string $email)
     {
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

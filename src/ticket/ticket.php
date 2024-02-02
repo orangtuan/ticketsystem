@@ -2,14 +2,14 @@
 
 class Ticket
 {
-    private int $id;
+    private ?int $id;
     private TicketState $ticketState;
     private Customer $customer;
     private Employee $employee;
     private string $title;
     private string $description;
-    private DateTime $creationDate;
-    private DateTime $closingDate;
+    private ?DateTime $creationDate;
+    private ?DateTime $closingDate;
 
 
     /**
@@ -18,11 +18,11 @@ class Ticket
      * @param Customer $customer
      * @param Employee $employee
      * @param string $title
-     * @param string $description
-     * @param DateTime $creationDate
-     * @param DateTime $closingDate
+     * @param string|null $description
+     * @param DateTime|null $creationDate
+     * @param DateTime|null $closingDate
      */
-    public function __construct(?int $id, TicketState $ticketState, Customer $customer, Employee $employee, string $title, string $description, DateTime $creationDate, DateTime $closingDate)
+    public function __construct(?int $id, TicketState $ticketState, Customer $customer, Employee $employee, string $title, ?string $description, ?DateTime $creationDate, ?DateTime $closingDate)
     {
         $this->id = $id;
         $this->ticketState = $ticketState;
@@ -34,7 +34,7 @@ class Ticket
         $this->closingDate = $closingDate;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -59,12 +59,12 @@ class Ticket
         $this->description = $description;
     }
 
-    public function getCreationDate(): DateTime
+    public function getCreationDate(): ?DateTime
     {
         return $this->creationDate;
     }
 
-    public function getClosingDate(): DateTime
+    public function getClosingDate(): ?DateTime
     {
         return $this->closingDate;
     }

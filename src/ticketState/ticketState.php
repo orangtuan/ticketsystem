@@ -1,16 +1,16 @@
 <?php
 class TicketState
 {
-    private int $id;
+    private ?int $id;
     private string $state;
 
-    public function __construct(int $id, string $state)
+    public function __construct(?int $id, string $state)
     {
         $this->id = $id;
         $this->state = $state;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
