@@ -22,16 +22,16 @@ class TicketRepository
 
         $resultArray = $result->fetch_assoc();
         $stmt->close();
-
+        //TODO:ticketstate, customer,employee
         return new Ticket(
+            TicketState::from($resultArray["state_id"]),
+            Customer::$resultArray["customer_id"],
+            Employee::$resultArray["employee_id"],
             $resultArray["id"],
             $resultArray["title"],
             $resultArray["description"],
             new DateTime($resultArray["creationDate"]),
             new DateTime($resultArray["closingDate"]),
-            TicketState::from($resultArray["state"]),
-            $resultArray["mail"],
-            $resultArray["name"]
         );
     }
 
@@ -46,16 +46,17 @@ class TicketRepository
         }
 
         $tickets = [];
+        //TODO:ticketstate, customer,employee
         while ($resultArray = $result->fetch_assoc()) {
             $tickets[] = new Ticket(
+                TicketState::from($resultArray["state_id"]),
+                Customer::$resultArray["customer_id"],
+                Employee::$resultArray["employee_id"],
                 $resultArray["id"],
                 $resultArray["title"],
                 $resultArray["description"],
                 new DateTime($resultArray["creationDate"]),
                 new DateTime($resultArray["closingDate"]),
-                TicketState::from($resultArray["state"]),
-                $resultArray["mail"],
-                $resultArray["name"]
             );
         }
         $stmt->close();
@@ -63,13 +64,15 @@ class TicketRepository
         return $tickets;
     }
 
-    public function insert(string $title, string $description, DateTime $creationDate, DateTime $closingDate, TicketState $state, string $mail, string $name): int {
-		$stmt = $this->database->getMysqli()->prepare("INSERT INTO ticket (title, description, creationDate, closingDate, state, mail, name) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    public function insert( TicketState $ticketState, Customer $customer, Employee $employee, string $title, string $description, DateTime $creationDate, DateTime $closingDate): int {
+		$stmt = $this->database->getMysqli()->prepare("INSERT INTO ticket (state_id, customer_id, employee_id, title, description, creationDate, closingDate) VALUES (?, ?, ?, ?, ?, ?, ?)");
 		$creationDateString = $creationDate->format('Y-m-d H:i:s');
 		$closingDateString = $closingDate->format('Y-m-d H:i:s');
-		$stateValue = $state->value;
+		$stateValue = $ticketState->value;//id holen
+		$customerValue = $customer->value;//id holen
+		$employeeValue = $employee->value;//id holen
 	
-		$stmt->bind_param("sssssss", $title, $description, $creationDateString, $closingDateString, $stateValue, $mail, $name);
+		$stmt->bind_param("sssssss", $stateValue, $customerValue, $employeeValue, $title, $description, $creationDateString, $closingDateString);
 		$result = $stmt->execute();
 	
 		if ($result === false) {
@@ -82,6 +85,7 @@ class TicketRepository
 		return $insertedId;
 	}
 
+  //TODO:ids
 	public function update(Ticket $ticket): void {
 		$stmt = $this->database->getMysqli()->prepare("UPDATE ticket SET title = ?, description = ?, creationDate = ?, closingDate = ?, state = ?, mail = ?, name = ? WHERE id = ?");
 		$creationDateString = $ticket->getCreationDate()->format('Y-m-d H:i:s');

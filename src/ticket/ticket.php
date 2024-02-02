@@ -8,8 +8,8 @@ class Ticket
     private DateTime $creationDate;
     private DateTime $closingDate;
     private TicketState $state;
-    private string $mail;
-    private string $name;
+    private Customer $customer;
+    private Employee $employee;
 
     /**
      * @param int $id
@@ -17,20 +17,20 @@ class Ticket
      * @param string $description
      * @param DateTime $creationDate
      * @param DateTime $closingDate
-     * @param TicketState $state
-     * @param string $mail
-     * @param string $name
+     * @param TicketState $ticketState
+     * @param Customer $customer
+     * @param Employee $employee
      */
-    public function __construct(int $id, string $title, string $description, DateTime $creationDate, DateTime $closingDate, TicketState $state, string $mail, string $name)
+    public function __construct(int $id, string $title, string $description, DateTime $creationDate, DateTime $closingDate, TicketState $ticketState, Customer $customer, Employee $employee)
     {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
         $this->creationDate = $creationDate;
         $this->closingDate = $closingDate;
-        $this->state = $state;
-        $this->mail = $mail;
-        $this->name = $name;
+        $this->ticketState = $ticketState;
+        $this->customer = $customer;
+        $this->name = $employee;
     }
 
     public function getId(): int
@@ -73,35 +73,36 @@ class Ticket
         $this->closingDate = $closingDate;
     }
 
-    public function getState(): TicketState
+    public function getTicketState(): TicketState
     {
-        return $this->state;
+        return $this->ticketState;
     }
 
-    public function setState(TicketState $state): void
+    public function setTicketState(TicketState $ticketState): void
     {
-        $this->state = $state;
+        $this->ticketState = $ticketState;
+    }
+    public function getCustomer(): Customer
+    {
+        return $this->customer;
     }
 
-    public function getMail(): string
+    public function setCustomer(Customer $customer): void
     {
-        return $this->mail;
+        $this->customer = $customer;
     }
 
-    public function setMail(string $mail): void
+    public function getEmployee(): Employee
     {
-        $this->mail = $mail;
+        return $this->employee;
     }
 
-    public function getName(): string
+    public function setEmployee(Employee $employee): void
     {
-        return $this->name;
+        $this->employee = $employee;
     }
 
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
+
 }
 
 enum TicketState
