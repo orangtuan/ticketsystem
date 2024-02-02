@@ -1,30 +1,37 @@
 <?php
-class EmployeeRepository
+class EmployeeRepository extends BaseDao
 {
-    private Database $database;
-    public function __construct(Database $database)
+    protected string $_tableName = 'employee';
+    protected string $_primaryKey = 'id';
+
+    public function selectByID(int $id): ?Employee
     {
-        $this->database = $database;
-    }
-
-	public function select(int $id): ?Employee {
-        $stmt = $this->database->getMysqli()->prepare("SELECT * FROM employee WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result === false || $result->num_rows === 0) {
-            $stmt->close();
-            return null;
-        }
-
-        $resultArray = $result->fetch_assoc();
-        $stmt->close();
+        $result = $this->fetch($id, 'id');
+        if ($result === null) return null;
 
         return new Employee(
-            $resultArray["id"],
-            $resultArray["name"],
-            $resultArray["password"]
+            $result["id"],
+            $result["name"],
+            $result["password"]
         );
+    }
+
+    public function insertEmployee(Employee $employee): int
+    {
+        $keyedArray = array(
+            "name" => $employee->getName(),
+            "password" => $employee->getPassword()
+        );
+        return $this->insert($keyedArray);
+    }
+
+    public function updateEmployee(Employee $employee): void
+    {
+        $keyedArray = array(
+            "id" => $employee->getId(),
+            "name" => $employee->getName(),
+            "password" => $employee->getPassword()
+        );
+        $this->update($keyedArray);
     }
 }

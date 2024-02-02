@@ -13,7 +13,7 @@ class Customer
     {
         $this->id = $id;
         $this->name = $name;
-        $this->password = $email;
+        $this->email = $email;
     }
 
     public function getId(): int

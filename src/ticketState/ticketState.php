@@ -7,7 +7,7 @@ class TicketState
     public function __construct(int $id, string $state)
     {
         $this->id = $id;
-        $this->name = $state;
+        $this->state = $state;
     }
 
     public function getId(): int
@@ -22,6 +22,6 @@ class TicketState
 
     public function setState(string $state): void
     {
-        $this->name = $state;
+        $this->state = $state;
     }
 }

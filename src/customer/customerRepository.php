@@ -1,24 +1,33 @@
 <?php
-class CustomerRepository
+class CustomerRepository extends BaseDao
 {
-    private Database $database;
-    public function __construct(Database $database)
+    protected string $_tableName = 'customer';
+    protected string $_primaryKey = 'id';
+
+    public function selectByID(int $id) : ?Customer
     {
-        $this->database = $database;
+        $result = $this->fetch($id, 'id');
+        if ($result === null) return null;
+        return new customer(
+            $result["id"],
+            $result["name"],
+            $result["email"]
+        );
+    }
+    public function insertCustomer(Customer $customer): int {
+        $keyedArray = array(
+            "name"=>$customer->getName(),
+            "email"=>$customer->getEmail()
+        );
+        return $this->insert($keyedArray);
     }
 
-    public function select(int $id) : Customer|null
-    {
-        $result = $this->database->getMysqli()->execute_query("SELECT * FROM customer WHERE ID = " . $id);
-        if ($result === false) return null;
-        $resultArray = $result->fetch_assoc();
-
-        $customer = new customer(
-            $resultArray["id"],
-            $resultArray["name"],
-            $resultArray["email"]
+    public function updateCustomer(Customer $customer): void {
+        $keyedArray = array(
+            "id"=>$customer->getId(),
+            "name"=>$customer->getName(),
+            "email"=>$customer->getEmail()
         );
-
-        return $customer;
+        $this->update($keyedArray);
     }
 }

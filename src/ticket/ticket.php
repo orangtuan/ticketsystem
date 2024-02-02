@@ -3,34 +3,35 @@
 class Ticket
 {
     private int $id;
+    private TicketState $ticketState;
+    private Customer $customer;
+    private Employee $employee;
     private string $title;
     private string $description;
     private DateTime $creationDate;
     private DateTime $closingDate;
-    private TicketState $state;
-    private Customer $customer;
-    private Employee $employee;
+
 
     /**
-     * @param int $id
+     * @param ?int $id
+     * @param TicketState $ticketState
+     * @param Customer $customer
+     * @param Employee $employee
      * @param string $title
      * @param string $description
      * @param DateTime $creationDate
      * @param DateTime $closingDate
-     * @param TicketState $ticketState
-     * @param Customer $customer
-     * @param Employee $employee
      */
-    public function __construct(int $id, string $title, string $description, DateTime $creationDate, DateTime $closingDate, TicketState $ticketState, Customer $customer, Employee $employee)
+    public function __construct(?int $id, TicketState $ticketState, Customer $customer, Employee $employee, string $title, string $description, DateTime $creationDate, DateTime $closingDate)
     {
         $this->id = $id;
+        $this->ticketState = $ticketState;
+        $this->customer = $customer;
+        $this->employee = $employee;
         $this->title = $title;
         $this->description = $description;
         $this->creationDate = $creationDate;
         $this->closingDate = $closingDate;
-        $this->ticketState = $ticketState;
-        $this->customer = $customer;
-        $this->name = $employee;
     }
 
     public function getId(): int
@@ -102,13 +103,4 @@ class Ticket
         $this->employee = $employee;
     }
 
-
-}
-
-enum TicketState
-{
-    case Open;
-    case Validated;
-    case InProgress;
-    case Closed;
 }

@@ -1,99 +1,73 @@
 <?php
 
-class TicketRepository
+class TicketRepository  extends BaseDao
 {
-    private Database $database;
+    protected string $_tableName = 'ticket';
+    protected string $_primaryKey = 'id';
 
-    public function __construct(Database $database)
-    {
-        $this->database = $database;
-    }
-
+    /**
+     * @throws Exception
+     */
     public function selectByID(int $id): ?Ticket {
-        $stmt = $this->database->getMysqli()->prepare("SELECT * FROM ticket WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result === false || $result->num_rows === 0) {
-            $stmt->close();
-            return null;
-        }
-
-        $resultArray = $result->fetch_assoc();
-        $stmt->close();
-        //TODO:ticketstate, customer,employee
+        $result = $this->fetch($id, 'id');
+        if ($result === null) return null;
         return new Ticket(
-            TicketState::from($resultArray["state_id"]),
-            Customer::$resultArray["customer_id"],
-            Employee::$resultArray["employee_id"],
-            $resultArray["id"],
-            $resultArray["title"],
-            $resultArray["description"],
-            new DateTime($resultArray["creationDate"]),
-            new DateTime($resultArray["closingDate"]),
+            $result["id"],
+            (new TicketStateRepository($this->database))->selectByID($result["state_id"]),
+            (new CustomerRepository($this->database))->selectByID($result["customer_id"]),
+            (new EmployeeRepository($this->database))->selectByID($result["employee_id"]),
+            $result["title"],
+            $result["description"],
+            new DateTime($result["creationDate"]),
+            new DateTime($result["closingDate"])
         );
     }
 
-    public function selectAll(): array {
-        $stmt = $this->database->getMysqli()->prepare("SELECT * FROM ticket");
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result === false) {
-            $stmt->close();
-            return [];
-        }
-
+    /**
+     * @throws Exception
+     */
+    public function selectAllTickets(): ?array {
+        $result = $this->fetchAll();
+        if ($result === null) return null;
         $tickets = [];
-        //TODO:ticketstate, customer,employee
-        while ($resultArray = $result->fetch_assoc()) {
-            $tickets[] = new Ticket(
-                TicketState::from($resultArray["state_id"]),
-                Customer::$resultArray["customer_id"],
-                Employee::$resultArray["employee_id"],
-                $resultArray["id"],
-                $resultArray["title"],
-                $resultArray["description"],
-                new DateTime($resultArray["creationDate"]),
-                new DateTime($resultArray["closingDate"]),
-            );
+        foreach ($result as $value) {
+                $tickets[] = new Ticket(
+                    $value["id"],
+                    (new TicketStateRepository($this->database))->selectByID($value["state_id"]),
+                    (new CustomerRepository($this->database))->selectByID($value["customer_id"]),
+                    (new EmployeeRepository($this->database))->selectByID($value["employee_id"]),
+                    $value["title"],
+                    $value["description"],
+                    new DateTime($value["creationDate"]),
+                    new DateTime($value["closingDate"])
+                );
         }
-        $stmt->close();
-
         return $tickets;
     }
+    public function insertTicket(Ticket $ticket): int {
+        $keyedArray = array(
+            "state_id"=>$ticket->getTicketState()->getId(),
+            "customer_id"=>$ticket->getCustomer()->getId(),
+            "employee_id"=>$ticket->getEmployee()->getId(),
+            "title" => $ticket->getTitle(),
+            "description" => $ticket->getDescription(),
+            "creationDateString" => $ticket->getCreationDate()->format('Y-m-d H:i:s'),
+            "closingDateString" => $ticket->getClosingDate()->format('Y-m-d H:i:s')
+        );
 
-    public function insert( TicketState $ticketState, Customer $customer, Employee $employee, string $title, string $description, DateTime $creationDate, DateTime $closingDate): int {
-		$stmt = $this->database->getMysqli()->prepare("INSERT INTO ticket (state_id, customer_id, employee_id, title, description, creationDate, closingDate) VALUES (?, ?, ?, ?, ?, ?, ?)");
-		$creationDateString = $creationDate->format('Y-m-d H:i:s');
-		$closingDateString = $closingDate->format('Y-m-d H:i:s');
-		$stateValue = $ticketState->value;//id holen
-		$customerValue = $customer->value;//id holen
-		$employeeValue = $employee->value;//id holen
-	
-		$stmt->bind_param("sssssss", $stateValue, $customerValue, $employeeValue, $title, $description, $creationDateString, $closingDateString);
-		$result = $stmt->execute();
-	
-		if ($result === false) {
-			$stmt->close();
-			return -1;
-		}
-	
-		$insertedId = $stmt->insert_id;
-		$stmt->close();
-		return $insertedId;
-	}
+        return $this->insert($keyedArray);
+    }
 
-  //TODO:ids
-	public function update(Ticket $ticket): void {
-		$stmt = $this->database->getMysqli()->prepare("UPDATE ticket SET title = ?, description = ?, creationDate = ?, closingDate = ?, state = ?, mail = ?, name = ? WHERE id = ?");
-		$creationDateString = $ticket->getCreationDate()->format('Y-m-d H:i:s');
-		$closingDateString = $ticket->getClosingDate()->format('Y-m-d H:i:s');
-		$stateValue = $ticket->getState()->value;
-	
-		$stmt->bind_param("sssssssi", $ticket->getTitle(), $ticket->getDescription(), $creationDateString, $closingDateString, $stateValue, $ticket->getMail(), $ticket->getName(), $ticket->getId());
-		$stmt->execute();
-		$stmt->close();
+	public function updateTicket(Ticket $ticket): void {
+        $keyedArray = array("id"=>$ticket->getId(),
+            "state_id"=>$ticket->getTicketState()->getId(),
+            "customer_id"=>$ticket->getCustomer()->getId(),
+            "employee_id"=>$ticket->getEmployee()->getId(),
+            "title" => $ticket->getTitle(),
+            "description" => $ticket->getDescription(),
+            "creationDateString" => $ticket->getCreationDate()->format('Y-m-d H:i:s'),
+            "closingDateString" => $ticket->getClosingDate()->format('Y-m-d H:i:s')
+            );
+        $this->update($keyedArray);
 	}
 }

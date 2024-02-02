@@ -1,23 +1,32 @@
 <?php
-class TicketStateRepository
+class TicketStateRepository extends BaseDao
 {
-    private Database $database;
-    public function __construct(Database $database)
+    protected string $_tableName = 'ticket_state';
+    protected string $_primaryKey = 'id';
+
+    public function selectByID(int $id) : ?TicketState
     {
-        $this->database = $database;
+        $result = $this->fetch($id, 'id');
+        if ($result === null) return null;
+        return new TicketState(
+            $result["id"],
+            $result["state"]
+        );
+    }
+    public function insertTicketState(TicketState $ticketState): int
+    {
+        $keyedArray = array(
+            "state" => $ticketState->getState()
+        );
+        return $this->insert($keyedArray);
     }
 
-    public function select(int $id) : TicketState|null
+    public function updateTicketState(TicketState $ticketState): void
     {
-        $result = $this->database->getMysqli()->execute_query("SELECT * FROM ticket_state WHERE ID = " . $id);
-        if ($result === false) return null;
-        $resultArray = $result->fetch_assoc();
-
-        $ticket_state = new TicketState(
-            $resultArray["id"],
-            $resultArray["state"]
+        $keyedArray = array(
+            "id" => $ticketState->getId(),
+            "state" => $ticketState->getState()
         );
-
-        return $ticket_state;
+        $this->update($keyedArray);
     }
 }
