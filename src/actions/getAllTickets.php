@@ -9,7 +9,11 @@ try {
 	$tickets = $ticketRepository->selectAllTickets();
 
 	if ($tickets !== null) {
-		echo "Number of tickets in the database: " . count($tickets);
+		echo "Number of tickets in the database: " . count($tickets) . "\n\n";
+		echo "Ticket IDs: ";
+		foreach ($tickets as $ticket) {
+			echo $ticket->getId() . " ";
+		}
 	} else {
 		echo "No ticket entries in the database.";
 	}
