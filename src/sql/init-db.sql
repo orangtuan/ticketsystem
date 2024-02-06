@@ -48,11 +48,14 @@ CREATE TABLE IF NOT EXISTS ticket
 create table message
 (
     id          int auto_increment,
+    ticket_id int not null,
     employee_id int  null,
     customer_id int  null,
     message     text not null,
     constraint id
         primary key (id),
+    constraint ticket_id
+        foreign key (ticket_id) references ticket (id),
     constraint customer_id
         foreign key (customer_id) references customer (id),
     constraint employee_id

@@ -25,4 +25,9 @@ class messageRepository extends BaseDao
         );
         return $this->insert($keyedArray);
     }
+
+    public function selectByTicketId(int $ticket_id) : ?array
+    {
+        //todo
+    }
 }

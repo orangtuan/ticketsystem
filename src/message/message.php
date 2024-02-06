@@ -3,14 +3,16 @@
 class message
 {
     private ?int $id;
+    private Ticket $ticket;
     private ?Customer $customer;
     private ?Employee $employee;
     private string $message;
 
 
-    public function __construct(?int $id, ?Customer $customer, Employee $employee, string $message)
+    public function __construct(?int $id, Ticket $ticket, ?Customer $customer, Employee $employee, string $message)
     {
         $this->id = $id;
+        $this->ticket = $ticket;
         $this->customer = $customer;
         $this->employee = $employee;
         $this->message = $message;
@@ -78,6 +80,22 @@ class message
     public function setEmployee(?Employee $employee): void
     {
         $this->employee = $employee;
+    }
+
+    /**
+     * @return Ticket
+     */
+    public function getTicket(): Ticket
+    {
+        return $this->ticket;
+    }
+
+    /**
+     * @param Ticket $ticket
+     */
+    public function setTicket(Ticket $ticket): void
+    {
+        $this->ticket = $ticket;
     }
 
 
