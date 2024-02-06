@@ -12,6 +12,7 @@ class messageRepository extends BaseDao
         $result = $results[0];
         return new message(
             $result["id"],
+            $result["ticket_id"],
             $result["customer"],
             $result["employee"],
             $result["message"]
@@ -19,9 +20,10 @@ class messageRepository extends BaseDao
     }
     public function insertMessage(Message $message): int {
         $keyedArray = array(
+            "ticket"=>"'" . $message->getTicket()->getId() . "'",
             "customer"=>"'" . $message->getCustomer()->getId() . "'",
             "employee"=>"'" .$message->getEmployee()->getId() . "'",
-            "message"=>"'" .$message->getMessage(). "'",
+            "message"=>"'" .$message->getMessage(). "'"
         );
         return $this->insert($keyedArray);
     }
@@ -29,5 +31,6 @@ class messageRepository extends BaseDao
     public function selectByTicketId(int $ticket_id) : ?array
     {
         //todo
+        return null;
     }
 }
