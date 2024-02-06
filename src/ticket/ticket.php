@@ -10,6 +10,7 @@ class Ticket
     private string $description;
     private ?DateTime $creationDate;
     private ?DateTime $closingDate;
+    private ?array $messages = [];
 
 
     /**
@@ -101,6 +102,16 @@ class Ticket
     public function setEmployee(Employee $employee): void
     {
         $this->employee = $employee;
+    }
+
+    public function addMessage(Message $message): void
+    {
+        $this->messages[] = $message;
+    }
+
+    public function getMessages(): array
+    {
+        return $this->messages;
     }
 
 }

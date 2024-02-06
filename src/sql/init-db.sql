@@ -43,3 +43,19 @@ CREATE TABLE IF NOT EXISTS ticket
     FOREIGN KEY (customer_id) REFERENCES customer (id),
     FOREIGN KEY (employee_id) REFERENCES employee (id)
 );
+
+-- Create 'message' table
+create table message
+(
+    id          int auto_increment,
+    employee_id int  null,
+    customer_id int  null,
+    message     text not null,
+    constraint id
+        primary key (id),
+    constraint customer_id
+        foreign key (customer_id) references customer (id),
+    constraint employee_id
+        foreign key (employee_id) references employee (id)
+)
+    comment 'messages of tickets';
