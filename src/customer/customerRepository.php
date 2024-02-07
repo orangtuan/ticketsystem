@@ -31,4 +31,17 @@ class CustomerRepository extends BaseDao
         );
         $this->update($keyedArray);
     }
+
+	public function selectByEmail(string $email) : ?Customer
+    {
+        $query = "SELECT * FROM {$this->_tableName} WHERE email = ?";
+        $results = $this->query($query, [$email]);
+        if ($results === null) return null;
+        $result = $results[0];
+        return new Customer(
+            $result["id"],
+            $result["name"],
+            $result["email"]
+        );
+    }
 }

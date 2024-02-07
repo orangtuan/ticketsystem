@@ -34,4 +34,17 @@ class EmployeeRepository extends BaseDao
         );
         $this->update($keyedArray);
     }
+
+	public function selectByName(string $name) : ?Employee
+    {
+        $query = "SELECT * FROM {$this->_tableName} WHERE name = ?";
+        $results = $this->query($query, [$name]);
+        if ($results === null) return null;
+        $result = $results[0];
+        return new Employee(
+            $result["id"],
+            $result["name"],
+            $result["password"]
+        );
+    }
 }
