@@ -96,4 +96,31 @@ class BaseDao
         $stmt->execute();
         $stmt->close();
     }
+
+    public function query(string $query, array $params = []): ?array
+    {
+        $stmt = $this->database->getMysqli()->prepare($query);
+        if ($stmt === false) return null;
+
+        if (!empty($params)) {
+            $types = str_repeat('s', count($params));
+            $stmt->bind_param($types, ...$params);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result === false || $result->num_rows === 0) {
+            $stmt->close();
+            return null;
+        }
+
+        $rows = [];
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
+        }
+
+        $stmt->close();
+        return $rows;
+    }
 }

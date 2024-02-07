@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="script.js"></script>
 </head>
 <body>
 	<div class="button-row" style="padding-bottom: 10px;">
-		<button id="createTicketBtn" style="padding: 10px; font-size: 16px;" disabled>Create Ticket</button>
-		<button id="deleteTicketBtn" style="padding: 10px; font-size: 16px;" disabled>Delete Ticket</button>
+		<button id="createTicketBtn" style="padding: 10px; font-size: 16px;" onclick="window.location.href='/html/createTicket.html'">Create Ticket</button>
 	</div>
 	<div class="button-row" style="padding-bottom: 10px;">
 		<button id="getAllTicketsBtn" style="padding: 10px; font-size: 16px;">Get All Tickets</button>	
@@ -21,5 +19,6 @@
 		</form>	
 	</div>
 	<div id="result"></div>
+	<script src="script.js"></script>
 </body>
 </html>

@@ -3,17 +3,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         ajaxRequest('actions/getAllTickets.php', 'result');
     });
 
-	document.getElementById('getTicketBtn').addEventListener('click', function(event) {
-		event.preventDefault();
-		const someInputValue = document.getElementById('ticketId').value;
-		if (Number.isInteger(parseInt(someInputValue))) {
-			const data = 'ticketId=' + encodeURIComponent(someInputValue);
-			ajaxRequest('actions/getTicket.php', 'result', data);
-		} else {
-			alert('Ticket ID must be an integer.');
-			document.getElementById('ticketId').value = '';
-		}
-	});
+    document.getElementById('getTicketBtn').addEventListener('click', function(event) {
+        event.preventDefault();
+        const ticketIdValue = document.getElementById('ticketId').value;
+        if (/^\d+$/.test(ticketIdValue)) {
+            const data = 'ticketId=' + encodeURIComponent(ticketIdValue);
+            ajaxRequest('actions/getTicket.php', 'result', data);
+        } else {
+            alert('Ticket ID must be an integer.');
+            document.getElementById('ticketId').value = '';
+        }
+    });
 });
 
 function ajaxRequest(url, resultElementId, data) {

@@ -6,7 +6,7 @@ $queryString = $_SERVER['QUERY_STRING'];
 
 switch ($path) {
     case 't':
-            include(__DIR__ . '/routes/show_ticket.php');
+            include(__DIR__ . '/routes/showTicket.php');
         break;
 
     default:
@@ -14,4 +14,3 @@ switch ($path) {
         echo "404 Not Found";
         break;
 }
-
