@@ -1,6 +1,8 @@
 <?php
+
 require_once("database.php");
 require_once("BaseDao.php");
+
 require_once("customer/customerRepository.php");
 require_once("customer/customer.php");
 require_once("employee/employeeRepository.php");
