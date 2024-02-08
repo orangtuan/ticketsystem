@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('getAllTicketsBtn').addEventListener('click', function() {
-        ajaxRequest('actions/getAllTickets.php', 'result');
+        ajaxRequest('../actions/getAllTickets.php', 'result');
     });
 
     document.getElementById('getTicketBtn').addEventListener('click', function(event) {
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const ticketIdValue = document.getElementById('ticketId').value;
         if (/^\d+$/.test(ticketIdValue)) {
             const data = 'ticketId=' + encodeURIComponent(ticketIdValue);
-            ajaxRequest('actions/getTicket.php', 'result', data);
+            ajaxRequest('../actions/getTicket.php', 'result', data);
         } else {
             alert('Ticket ID must be an integer.');
             document.getElementById('ticketId').value = '';
