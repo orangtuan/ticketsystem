@@ -11,6 +11,9 @@ ALTER TABLE `employee`
 ALTER TABLE `employee`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
+INSERT INTO `employee` (`id`, `name`, `password`)
+    VALUES (1, 'admin', '123');
+
 -- Create 'customer' table
 CREATE TABLE IF NOT EXISTS `customer` (
     `id`    INT(11)         NOT NULL,
