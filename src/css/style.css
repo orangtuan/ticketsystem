@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 85vh;
+}
+
+.button-row {
+    padding-bottom: 10px;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+}
+
+body {
+    background-color: dimgrey;
+}
