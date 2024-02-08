@@ -5,17 +5,13 @@
 <div class="container">
     <div>
         <label>
-            <input type="text" id="name" name="name"
-                   value="<?php if(!empty($_POST["name"])) { echo $_POST["name"]; } ?>"
-                   placeholder="Name" required>
+            <input type="text" id="name" name="name" placeholder="Name" required>
         </label>
     </div>
 
     <div>
         <label>
-            <input type="email" id="email" name="email"
-                   value="<?php if(!empty($_POST["email"])) { echo $_POST["email"]; } ?>"
-                   placeholder="E-Mail" required>
+            <input type="email" id="email" name="email" placeholder="E-Mail" required>
         </label>
     </div>
 
@@ -32,7 +28,22 @@
         const email = document.getElementById('email').value.trim();
 
         if (name !== "" && email !== "") {
-            window.location.href = "../ticket.php?name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email);
+            const xhr = new XMLHttpRequest();
+
+            xhr.open("POST", "../actions/createCustomer.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log(xhr.responseText);
+                        window.location.href = "../ticket.php?name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email);
+                    } else {
+                        console.error("Error: ", xhr.status);
+                    }
+                }
+            };
+
+            xhr.send("name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email));
         } else {
             alert("Please fill in both name and email.");
         }
