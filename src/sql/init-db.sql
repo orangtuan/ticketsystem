@@ -57,7 +57,8 @@ CREATE TABLE IF NOT EXISTS `ticket`
     `title`        VARCHAR(255) NOT NULL,
     `description`  TEXT         NULL,
     `creationDate` DATETIME     NOT NULL,
-    `closingDate`  DATETIME     NULL
+    `closingDate`  DATETIME     NULL,
+    `url`          VARCHAR(255) NOT NULL
 );
 
 ALTER TABLE `ticket`
