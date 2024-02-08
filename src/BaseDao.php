@@ -66,6 +66,9 @@ class BaseDao
     }
 
     public function update($keyedArray): void {
+        $primaryKeyValue = $keyedArray[$this->_primaryKey];
+        unset($keyedArray[$this->_primaryKey]);
+
         $sql = "UPDATE {$this->_tableName} SET ";
 
         $updates = array();
@@ -75,7 +78,7 @@ class BaseDao
         }
 
         $sql .= implode(',', $updates);
-        $sql .= " WHERE {$this->_primaryKey}='{$keyedArray[$this->_primaryKey]}'";
+        $sql .= " WHERE {$this->_primaryKey}='{$primaryKeyValue}'";
         echo $sql;
 
         $stmt = $this->database->getMysqli()->prepare($sql);
