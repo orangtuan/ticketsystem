@@ -9,6 +9,7 @@ class Ticket {
     private string      $description;
     private ?DateTime   $creationDate;
     private ?DateTime   $closingDate;
+    private string      $url;
     private ?array      $messages = [];
 
     /**
@@ -20,6 +21,7 @@ class Ticket {
      * @param string|null   $description
      * @param DateTime|null $creationDate
      * @param DateTime|null $closingDate
+     * @param string        $url
      */
     public function __construct(
         ?int        $id,
@@ -29,7 +31,8 @@ class Ticket {
         string      $title,
         ?string     $description,
         ?DateTime   $creationDate,
-        ?DateTime   $closingDate
+        ?DateTime   $closingDate,
+        string      $url
     ) {
         $this->id           = $id;
         $this->ticketState  = $ticketState;
@@ -39,6 +42,7 @@ class Ticket {
         $this->description  = $description;
         $this->creationDate = $creationDate;
         $this->closingDate  = $closingDate;
+        $this->url          = $url;
     }
 
     public function getId(): ?int {
@@ -103,5 +107,15 @@ class Ticket {
 
     public function getMessages(): array {
         return $this->messages;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $individualUrl): string
+    {
+        return $this->url = $individualUrl;
     }
 }
