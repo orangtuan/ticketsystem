@@ -12,7 +12,7 @@ Before you begin, ensure you have Docker Desktop installed on your system. Docke
 
 ### Install Docker Desktop
 
-1. [Download Docker Desktop](https://www.docker.com/products/docker-desktop) for your operating system using the link provided above.
+1. [Download Docker Desktop](https://www.docker.com/products/docker-desktop) for your operating system.
 2. Install Docker Desktop:
    - On macOS, drag and drop the Docker icon to the Applications folder.
    - On Linux, follow the package installation instructions provided on the Docker
