@@ -14,17 +14,17 @@ class messageRepository extends BaseDao {
         return new message(
             $result["id"],
             $result["ticket_id"],
-            $result["customer"],
-            $result["employee"],
+            $result["customer_id"],
+            $result["employee_id"],
             $result["message"]
         );
     }
 
     public function insertMessage(Message $message): int {
         $keyedArray = array(
-            "ticket"    => "'" . $message->getTicket()->getId() . "'",
-            "customer"  => "'" . $message->getCustomer()->getId() . "'",
-            "employee"  => "'" .$message->getEmployee()->getId() . "'",
+			"ticket_id"    => $message->getTicket()->getId(),
+            "customer_id"  => "'" . $message->getCustomer()->getId() . "'",
+            "employee_id"  => "'" .$message->getEmployee()->getId() . "'",
             "message"   => "'" .$message->getMessage(). "'"
         );
 
@@ -32,24 +32,38 @@ class messageRepository extends BaseDao {
     }
 
     public function selectByTicketId(int $ticket_id) : ?array {
-        $result = $this->fetch($ticket_id, "ticket_id");
-
-        if ($result === null) return null;
-
-        $messages = [];
-
-        foreach ($result as $value) {
-
-            $messages[] = new Message(
-                $value["id"],
-                $value["ticket_id"],
-                $value["customer"],
-                $value["employee"],
-                $value["message"]
-
-            );
-        }
-
-        return $messages;
-    }
+		$result = $this->fetch($ticket_id, "ticket_id");
+	
+		if ($result === null) return null;
+	
+		$messages = [];
+		$ticketRepository = new TicketRepository($this->database);
+		$customerRepository = new CustomerRepository($this->database);
+		$employeeRepository = new EmployeeRepository($this->database);
+	
+		foreach ($result as $value) {
+			$ticket = $ticketRepository->selectByID($value["ticket_id"]);
+	
+			$customer = null;
+			if ($value["customer_id"]) {
+				$customer = $customerRepository->selectByID($value["customer_id"]);
+			}
+	
+			$employee = null;
+			if ($value["employee_id"]) {
+				$employee = $employeeRepository->selectByID($value["employee_id"]);
+			}
+	
+			$messages[] = new Message(
+				$value["id"],
+				$ticket,
+				$customer,
+				$employee,
+				$value["message"]
+			);
+		}
+	
+		return $messages;
+	}
+	
 }
