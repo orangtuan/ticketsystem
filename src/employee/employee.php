@@ -31,4 +31,35 @@ class Employee
     public function getPassword(): string {
         return $this->password;
     }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
+    public function login(Database $database): bool {
+        $query  = "SELECT * FROM employee WHERE name = ? AND password = ?";
+        $stmt   = $database->getMysqli()->prepare($query);
+
+        $stmt->bind_param("ss", $this->name, $this->password);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        $stmt->close();
+
+        if($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+
+            $_SESSION["name"]   = $user['name'];
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function loggedIn(): bool {
+        return isset($_SESSION["name"]);
+    }
 }

@@ -1,4 +1,6 @@
-<link href="css/style.css" rel="stylesheet">
+<div class="button-row">
+    <button id="home" onclick="window.location.href='/index.php'">Home</button>
+</div>
 
 <div class="containerTicket">
     <form id="createTicketForm" onsubmit="return validateForm()">
@@ -21,6 +23,8 @@
         </div>
     </form>
 </div>
+
+<link href="css/style.css" rel="stylesheet">
 
 <div id="result"></div>
 
