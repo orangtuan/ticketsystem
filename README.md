@@ -19,9 +19,9 @@ Before you begin, ensure you have Docker Desktop installed on your system. Docke
    website.
    - On Windows, run the installer and follow the on-screen instructions.
 
-### Clone the Project Repository and Start the Docker Containers
+### Clone and Run the Project
 
-Clone this repository to your local machine using:
+Clone this repository and run the project using the following commands:
 
 ```bash
 git clone git@github.com:orangtuan/ticketsystem.git
@@ -32,7 +32,7 @@ sudo docker-compose up --build # omit sudo on Windows, use an elevated terminal
 ### Accessing the Application
 
 - Web Interface: After the containers are up and running, access the web interface at <http://localhost:8070>.
-- Database: Connect to the database using any database management tool at localhost:3305. Use the credentials provided in your .env file or the default credentials (MYSQL_USER: xampp, MYSQL_PASSWORD: xampp).
+- Database: Connect to the database using any database management tool at `localhost:3305`. Use the credentials provided in your .env file or the default credentials `(MYSQL_USER: xampp, MYSQL_PASSWORD: xampp)`.
 
 ### Additional Notes
 
