@@ -11,3 +11,5 @@ require_once("ticketState/ticketStateRepository.php");
 require_once("ticketState/ticketState.php");
 require_once("ticket/ticketRepository.php");
 require_once("ticket/ticket.php");
+require_once("message/messageRepository.php");
+require_once("message/message.php");

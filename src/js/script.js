@@ -14,6 +14,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
             document.getElementById('ticketId').value = '';
         }
     });
+
+	document.getElementById('newMessage').addEventListener('submit', function(event) {
+		const message = document.getElementById('message').value.trim();
+	
+		if (message === '') {
+			event.preventDefault();
+			alert('Please enter a message before sending.');
+		}
+	});	
+
+	// document.getElementById('submit').addEventListener('click', function(event) {
+	// 	console.log('submit');
+    //     event.preventDefault();
+    //     const ticketIdValue = document.getElementById('ticketId').value;
+	// 	const message = document.getElementById('message').value;
+	// 	if (/^\d+$/.test(ticketIdValue)) {
+	// 		const data = 'ticketId=' + encodeURIComponent(ticketIdValue) + '&message=' + encodeURIComponent(message);
+	// 		ajaxRequest('../actions/createMessage.php', 'result', data);
+	// 	} else {
+	// 		alert('Ticket ID must be an integer.');
+	// 		document.getElementById('ticketId').value = '';
+	// 	}
+    // });
 });
 
 function ajaxRequest(url, resultElementId, data) {
