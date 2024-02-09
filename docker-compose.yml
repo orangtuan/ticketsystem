@@ -22,7 +22,7 @@ services:
       - "8070:80"
     # Jetzt noch Volumes. So werden deine Dateien in Echtzeit im Container aktualisiert und du musst ned für jede Änderung neustarten
     volumes:
-      - ./src:/var/www/inc/
+      - ./src:/var/www/html/
     # Links: Damit entsteht eine Dependency auf den db-xampp Container und du kannst den Host "database" im web-Container verwenden, um auf die Datenbank zuzugreifen
     links:
       - "db-xampp:database"
