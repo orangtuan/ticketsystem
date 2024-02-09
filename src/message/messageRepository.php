@@ -32,7 +32,24 @@ class messageRepository extends BaseDao {
     }
 
     public function selectByTicketId(int $ticket_id) : ?array {
-        //todo
-        return null;
+        $result = $this->fetch($ticket_id, "ticket_id");
+
+        if ($result === null) return null;
+
+        $messages = [];
+
+        foreach ($result as $value) {
+
+            $messages[] = new Message(
+                $value["id"],
+                $value["ticket_id"],
+                $value["customer"],
+                $value["employee"],
+                $value["message"]
+
+            );
+        }
+
+        return $messages;
     }
 }
