@@ -12,8 +12,19 @@ try {
 	if ($tickets !== null) {
 		echo "Number of tickets in the database: " . count($tickets) . "\n\n";
 		echo "Ticket IDs: ";
+
 		foreach ($tickets as $ticket) {
-			echo $ticket->getId() . " ";
+            $scheme = (!empty($_SERVER['HTTPS'])
+                && $_SERVER['HTTPS'] !== 'off'
+                || $_SERVER['SERVER_PORT'] == 443)
+                ? "https://" : "http://";
+
+            $host   = $_SERVER['HTTP_HOST'];
+
+            $url    = $scheme . $host . "/t?id=" . $ticket->getId();
+
+			echo "<br>" . $ticket->getId() . " ";
+            echo "<a href='" . htmlspecialchars($url) . "' target='_blank'>" . htmlspecialchars($url) . "</a>";
 		}
 	} else {
 		echo "No ticket entries in the database.";
