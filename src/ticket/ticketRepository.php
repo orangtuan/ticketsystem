@@ -25,8 +25,7 @@ class TicketRepository extends BaseDao {
             $result["title"],
             $result["description"],
             $creationDate,
-            $closingDate,
-            $result["url"]
+            $closingDate
         );
     }
 
@@ -52,8 +51,7 @@ class TicketRepository extends BaseDao {
                 $value["title"],
                 $value["description"],
                 $creationDate,
-                $closingDate,
-                $value["url"]
+                $closingDate
             );
         }
 
@@ -69,8 +67,7 @@ class TicketRepository extends BaseDao {
             "description"   => "'" . $ticket->getDescription() . "'",
             "creationDate"  => "'" . $ticket->getCreationDate()->format('Y-m-d H:i:s') . "'",
             "closingDate"   => $ticket->getClosingDate()
-                ? "'" . $ticket->getClosingDate()->format('Y-m-d H:i:s') . "'" : 'NULL',
-            "url"           => "'" . $ticket->getUrl() . "'"
+                ? "'" . $ticket->getClosingDate()->format('Y-m-d H:i:s') . "'" : 'NULL'
         );
 
         return $this->insert($keyedArray);
@@ -85,8 +82,7 @@ class TicketRepository extends BaseDao {
             "title"         => $ticket->getTitle(),
             "description"   => $ticket->getDescription(),
             "creationDate"  => $ticket->getCreationDate()->format('Y-m-d H:i:s'),
-            "closingDate"   => $ticket->getClosingDate()?->format('Y-m-d H:i:s'),
-            "url"           => $ticket->getUrl()
+            "closingDate"   => $ticket->getClosingDate()?->format('Y-m-d H:i:s')
         );
 
         $this->update($keyedArray);

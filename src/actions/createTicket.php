@@ -6,7 +6,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try {
         $title          = $_POST["title"]       ?? "";
         $description    = $_POST["description"] ?? "";
-        $url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
         if (empty($title) || empty($description)) {
             echo "Please fill out all fields.";
@@ -51,16 +50,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $ticket     = new Ticket(null, $defaultState, $existingCustomer
             ?? new Customer(null, "default_name", "default_email"), $existingEmployee
             ?? new Employee(null, "default_name", "default_password"),
-            $title, $description, new DateTime(), null, $url);
+            $title, $description, new DateTime(), null);
         $ticketId   = $ticketRepository->insertTicket($ticket);
 
         if ($ticketId !== null) {
-            $individualUrl = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . '?id=' . $ticketId;
+            $individualUrl = "http://" . $_SERVER['HTTP_HOST'] . '/t?id=' . $ticketId;
 
-            $ticket->setUrl($individualUrl);
-            $ticketRepository->updateTicket($ticket);
-
+            echo "<br>";
             echo "Ticket created successfully with ID: " . $ticketId;
+            echo "<br>";
+            echo "Your link to the ticket: <a href=\"$individualUrl\" target='_blank'>Ticketlink</a>";
         } else {
             echo "Failed to create ticket.";
         }
